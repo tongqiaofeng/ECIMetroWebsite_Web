@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>易初明通工程机械</title>
+    <script charset="utf-8" src="https://map.qq.com/api/gljs?v=1.exp&key=DL6BZ-2TPWD-WP24E-HUZ6W-CZAUF-Z6FGI"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+    
+    <script>
+      const cliWidth = document.documentElement.clientWidth;
+      if (cliWidth > 768) {
+        let userAgent = navigator.userAgent; // 取得浏览器的userAgent字符串
+        let isChrome = navigator.userAgent.indexOf('Chrome') > -1 || navigator.userAgent.indexOf('WebKit') > -1; // 是否是谷歌 
+        if (isChrome) {
+          if (window.devicePixelRatio > 1) {
+            let s = Number(1 / window.devicePixelRatio);
+            document.body.style.zoom = s;
+          } else {
+            document.body.style.zoom = 1;
+          };
+        }
+      }
+    </script>
+
+<script>
+  (function (d, w, c) {
+    w.ChatraID = 'EFziSXt5R6zpBhx79';
+    var s = d.createElement('script');
+    w[c] = w[c] || function () {
+      (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+  })(document, window, 'Chatra');
+</script>
+  </body>
+</html>
