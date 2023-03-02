@@ -7,8 +7,8 @@ import { ElMessage } from "element-plus";
 // const base_request_url = "http://124.222.171.2:8086/api";
 // const base_request_url = "http://171.221.210.114:8088/api";
 
-const base_request_url = "https://www.eci-metro.cn/api";
-// const base_request_url = "http://171.221.210.114:9876/api";
+// const base_request_url = "https://www.eci-metro.cn/api";
+const base_request_url = "http://171.221.210.114:9876/api";
 // const base_request_url = "http://192.168.0.164:8085/api";
 
 // 请求基础 URL
