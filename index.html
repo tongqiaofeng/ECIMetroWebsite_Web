@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>易初明通工程机械</title>
+    <style>
+      html {
+        touch-action: none;
+        touch-action: pan-y;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .chat {
+        position: fixed;
+        right: 4px;
+        bottom: 200px;
+        z-index: 999;
+      }
+
+      .back-top-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #dea600;
+        box-shadow: var(--el-box-shadow-lighter);
+        color: #fff;
+        border-radius: 50%;
+      }
+
+      .top-font {
+        color: #fff;
+      }
+
+      @media screen and (min-width: 768px) {
+        .top-img {
+          width: 30px;
+          height: 24px;
+        }
+
+        .top-font {
+          margin-top: 4px;
+          font-size: 12px;
+        }
+
+        .back-top-content {
+          height: 68px;
+          width: 68px;
+        }
+      }
+
+      @media screen and (max-width: 767px) {
+        .top-img {
+          width: 22px;
+          height: 19px;
+        }
+
+        .top-font {
+          margin-top: 4px;
+          font-size: 9px;
+        }
+
+        .back-top-content {
+          height: 58px;
+          width: 58px;
+        }
+      }
+    </style>
+    <script
+      charset="utf-8"
+      src="https://map.qq.com/api/gljs?v=1.exp&key=DL6BZ-2TPWD-WP24E-HUZ6W-CZAUF-Z6FGI"
+    ></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="ECIM001" class="chat" ref="chatRef">
+      <div class="back-top-content">
+        <img class="top-img" src="./src/assets/imgs/pc/common/contact.png" />
+        <div class="top-font">在线咨询</div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+
+    <!-- WPA start -->
+    <script
+      id="qd3009035713118676eb8e8b190586612ef3899203c3"
+      src="https://wp.qiye.qq.com/qidian/3009035713/118676eb8e8b190586612ef3899203c3"
+      charset="utf-8"
+      async
+      defer
+    ></script>
+    <!-- WPA end -->
+  </body>
+</html>

@@ -1,0 +1,170 @@
+:root {
+  --van-divider-border-color: #e6e6e6;
+  --van-pagination-item-disabled-background: #fff;
+  --van-pagination-item-disabled-background-color: #fff;
+  --van-pagination-item-default-color: #f5c71b;
+  --van-pagination-item-width: 32px !important;
+  --van-pagination-height: 32px !important;
+  --el-menu-hover-bg-color: transparent;
+}
+
+.van-sticky--fixed {
+  z-index: 99999 !important;
+}
+
+.van-overlay {
+  z-index: 99999 !important;
+}
+
+.van-popup--top {
+  z-index: 99999 !important;
+}
+
+.van-popup--center {
+  z-index: 99999 !important;
+}
+
+.van-popup--bottom {
+  z-index: 99999 !important;
+}
+
+.van-pagination__items {
+  justify-content: center !important;
+}
+
+.van-pagination__item {
+  flex: none !important;
+  color: #6c6c6c !important;
+}
+
+.van-pagination__item button {
+  cursor: pointer !important;
+}
+
+.van-pagination__item--active {
+  color: #1a1a1a !important;
+  background-color: #f5c71b !important;
+}
+
+.van-tabs__wrap {
+  border-bottom: 1px solid #f0f1f2;
+}
+
+.grab-tabs-container {
+  .van-tab {
+    font-size: 16px !important;
+    font-family: "PingFang SC" !important;
+  }
+
+  .van-tab--active {
+    font-weight: 900 !important;
+    font-size: 16px !important;
+    font-family: "PingFang SC" !important;
+  }
+
+  .van-tabs__wrap {
+    height: 52px !important;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .activity-tabs-container {
+    .van-tabs__wrap {
+      height: 68px !important;
+    }
+
+    .van-tab {
+      font-size: 18px !important;
+      font-family: "PingFang SC" !important;
+    }
+
+    .van-tab--active {
+      font-weight: 900 !important;
+      font-size: 20px !important;
+      font-family: "PingFang SC" !important;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .activity-tabs-container {
+    .van-tabs__wrap {
+      height: 59px !important;
+    }
+
+    .van-tab {
+      font-size: 12px !important;
+      font-family: "PingFang SC" !important;
+    }
+
+    .van-tab--active {
+      font-weight: 900 !important;
+      font-size: 14px !important;
+      font-family: "PingFang SC" !important;
+    }
+  }
+}
+
+.detail-main {
+  .van-divider {
+    margin: 40px 0;
+  }
+}
+
+.el-main {
+  padding: 58px 0 0;
+  overflow: hidden !important;
+}
+
+.el-footer {
+  padding: 0;
+}
+
+.el-menu {
+  border-right: none !important;
+}
+
+.el-menu--horizontal {
+  border-bottom: none;
+}
+
+.el-menu--popup {
+  box-shadow: none !important;
+}
+
+.el-menu .el-menu-item:hover {
+  background: transparent !important;
+}
+
+.el-submenu .el-submenu__title:hover {
+  background: transparent !important;
+}
+
+.el-menu--horizontal > .el-menu-item.is-active {
+  border-bottom: 3px solid #f5c71b !important;
+}
+
+.el-menu--horizontal > .el-sub-menu.is-active .el-sub-menu__title {
+  border-bottom: 3px solid #f5c71b !important;
+}
+
+.el-menu--horizontal .el-menu .el-menu-item.is-active {
+  color: #1a1a1a !important;
+}
+
+.el-dialog__footer {
+  text-align: right !important;
+}
+
+.el-message {
+  z-index: 99999999 !important;
+}
+
+// .el-overlay {
+//   // top: 100px !important;
+//   z-index: 99999999 !important;
+// }
+
+.el-dialog {
+  --el-dialog-margin-top: 15vh !important;
+}
