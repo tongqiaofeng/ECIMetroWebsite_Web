@@ -154,7 +154,8 @@ const handleTouchend = (event: any) => {
     //用户做了合法的滑动操作
     if (direction === "left") {
       // alert("left");
-      router.go(-1);
+      // router.go(-1);
+      router.back();
     }
   }
 };

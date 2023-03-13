@@ -48,10 +48,13 @@
                 :key="item.id"
                 @click="checkDetail(item)"
               >
-                <img
-                  class="every-img"
-                  :src="base_request_url + '/file/' + item.imgUrl.split('|')[0]"
-                />
+                <div class="every-img">
+                  <img
+                    :src="
+                      base_request_url + '/file/' + item.imgUrl.split('|')[0]
+                    "
+                  />
+                </div>
 
                 <div class="every-params">
                   <div class="title">
@@ -162,10 +165,13 @@
                 :key="item.id"
                 @click="checkDetail(item)"
               >
-                <img
-                  class="every-img"
-                  :src="base_request_url + '/file/' + item.imgUrl.split('|')[0]"
-                />
+                <div class="every-img">
+                  <img
+                    :src="
+                      base_request_url + '/file/' + item.imgUrl.split('|')[0]
+                    "
+                  />
+                </div>
 
                 <div class="every-params">
                   <div class="title">
@@ -264,10 +270,13 @@
                 :key="item.id"
                 @click="checkDetail(item)"
               >
-                <img
-                  class="every-img"
-                  :src="base_request_url + '/file/' + item.imgUrl.split('|')[0]"
-                />
+                <div class="every-img">
+                  <img
+                    :src="
+                      base_request_url + '/file/' + item.imgUrl.split('|')[0]
+                    "
+                  />
+                </div>
 
                 <div class="every-params">
                   <div class="title">
@@ -378,10 +387,13 @@
                 :key="item.id"
                 @click="checkDetail(item)"
               >
-                <img
-                  class="every-img"
-                  :src="base_request_url + '/file/' + item.imgUrl.split('|')[0]"
-                />
+                <div class="every-img">
+                  <img
+                    :src="
+                      base_request_url + '/file/' + item.imgUrl.split('|')[0]
+                    "
+                  />
+                </div>
 
                 <div class="every-params">
                   <div class="title">

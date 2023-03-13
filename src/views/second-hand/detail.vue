@@ -1,6 +1,6 @@
 <template>
   <!-- <div>产品详情</div> -->
-  <div v-if="cliWidth > 1000" class="eci-main-content grab-detail-content">
+  <div v-show="cliWidth > 1000" class="eci-main-content grab-detail-content">
     <div class="second-nav">
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item to="/secondHand/list">二手设备</el-breadcrumb-item>
@@ -226,7 +226,7 @@
       </van-tabs>
     </div>
   </div>
-  <div v-else-if="cliWidth > 768 && cliWidth < 1001">
+  <div v-show="cliWidth > 768 && cliWidth < 1001">
     <el-carousel class="my-swipe" :autoplay="false" height="50vh">
       <el-carousel-item v-for="(item, index) of imgList" :key="index">
         <img :src="base_request_url + '/file/' + item" class="swipe-img" />
@@ -379,14 +379,14 @@
       </van-tabs>
     </div>
   </div>
-  <div v-else>
+  <div v-show="cliWidth < 769">
     <van-swipe class="my-swipe" indicator-color="white">
       <van-swipe-item v-for="(item, index) of imgList" :key="index">
         <img :src="base_request_url + '/file/' + item" class="swipe-img" />
       </van-swipe-item>
       <van-swipe-item v-for="(item, index) of videoList" :key="index">
         <video
-          style="width: 100%; height: 50vh; cursor: pointer; object-fit: fill"
+          style="width: 100%; height: 50vh; cursor: pointer; object-fit: cover"
           :src="base_request_url + '/file/' + item"
           controls
           preload="auto"

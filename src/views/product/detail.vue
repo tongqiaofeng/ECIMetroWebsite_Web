@@ -1,103 +1,51 @@
 <template>
   <!-- <div>产品详情</div> -->
-  <div v-if="cliWidth > 1000" class="eci-main-content grab-detail-content">
+  <div v-show="cliWidth > 1000" class="eci-main-content grab-detail-content">
     <div class="second-nav">
       <el-breadcrumb :separator-icon="ArrowRight">
-        <el-breadcrumb-item v-if="typeVal == 1" :to="{ path: '/product/grab' }"
-          >机械设备</el-breadcrumb-item
-        >
-        <el-breadcrumb-item
-          v-if="typeVal == 2"
-          :to="{ path: '/alliance', query: { name: pageNameVal } }"
-          >{{ pageNameVal }}</el-breadcrumb-item
-        >
+        <el-breadcrumb-item v-if="typeVal == 1" :to="{ path: '/product/grab' }">机械设备</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="typeVal == 2" :to="{ path: '/alliance', query: { name: pageNameVal } }">{{ pageNameVal
+        }}</el-breadcrumb-item>
         <el-breadcrumb-item>{{ productInfo?.model }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="pc-detail-top">
       <div class="detail-top-img" v-if="imgList">
         <div class="big-img">
-          <img
-            v-show="imgOrVideo == 0"
-            class="big-img"
-            :src="base_request_url + '/file/' + bigImgUrl"
-          />
+          <img v-show="imgOrVideo == 0" class="big-img" :src="base_request_url + '/file/' + bigImgUrl" />
 
-          <video
-            v-show="imgOrVideo == 1"
-            class="big-img"
-            :src="base_request_url + '/file/' + bigImgUrl"
-            controls
-            autoplay
-            preload="auto"
-            webkit-playsinline="true"
-            playsinline="true"
-            x-webkit-airplay="allow"
-            x5-video-player-type="h5"
-            x5-video-player-fullscreen="true"
-            x5-video-orientation="portraint"
-            style="object-fit: fill"
-          ></video>
+          <video v-show="imgOrVideo == 1" class="big-img" :src="base_request_url + '/file/' + bigImgUrl" controls autoplay
+            preload="auto" webkit-playsinline="true" playsinline="true" x-webkit-airplay="allow" x5-video-player-type="h5"
+            x5-video-player-fullscreen="true" x5-video-orientation="portraint" style="object-fit: fill"></video>
         </div>
         <div class="small-img-list">
           <!-- pc端放大镜下缩略图 -->
           <div class="carousel-buttom">
-            <div
-              class="arrow"
-              :style="{
-                display:
-                  imgList.length + videoList.length > 4 ? 'block' : 'none',
-              }"
-            >
-              <img
-                src="../../assets/imgs/pc/common/left.png"
-                class="left"
-                @click="clickfun(1)"
-              />
+            <div class="arrow" :style="{
+              display:
+                imgList.length + videoList.length > 4 ? 'block' : 'none',
+            }">
+              <img src="../../assets/imgs/pc/common/left.png" class="left" @click="clickfun(1)" />
             </div>
             <div id="buttomitemout">
               <div class="buttomitem" id="buttomitem">
-                <div
-                  class="buttom-item"
-                  v-for="(item, index) in imgList"
-                  :key="index"
-                >
-                  <img
-                    class="img"
-                    :src="base_request_url + '/file/' + item"
-                    @click="showimg(item, 0)"
-                  />
+                <div class="buttom-item" v-for="(item, index) in imgList" :key="index">
+                  <img class="img" :src="base_request_url + '/file/' + item" @click="showimg(item, 0)" />
                 </div>
 
-                <div
-                  class="buttom-item"
-                  v-for="(item, index) in videoList"
-                  :key="index"
-                  @click="showimg(item, 1)"
-                >
-                  <video
-                    style="
-                      width: 100%;
-                      height: 100%;
-                      cursor: pointer;
-                      object-fit: fill;
-                    "
-                    :src="base_request_url + '/file/' + item"
-                  ></video>
-                  <img
-                    class="play-img"
-                    src="../../assets/imgs/common/play.png"
-                  />
+                <div class="buttom-item" v-for="(item, index) in videoList" :key="index" @click="showimg(item, 1)">
+                  <video style="
+                        width: 100%;
+                        height: 100%;
+                        cursor: pointer;
+                        object-fit: fill;
+                      " :src="base_request_url + '/file/' + item"></video>
+                  <img class="play-img" src="../../assets/imgs/common/play.png" />
                 </div>
               </div>
             </div>
             <div class="arrow">
-              <img
-                style="display: none"
-                src="../../assets/imgs/pc/common/right.png"
-                class="right"
-                @click="clickfun(2)"
-              />
+              <img style="display: none" src="../../assets/imgs/pc/common/right.png" class="right" @click="clickfun(2)" />
             </div>
           </div>
         </div>
@@ -117,7 +65,7 @@
             <div class="global-params-every">
               工作重量：{{ productInfo.weightWork + " kg" }}
             </div>
-            <div class="global-params-every">
+            <div class="global-params-every" v-if="productInfo.bucketCapacity">
               铲斗容量：{{ productInfo.bucketCapacity + " m³" }}
             </div>
             <div class="global-params-every" v-if="productInfo.maxReachRange">
@@ -129,32 +77,17 @@
               <img src="../../assets/imgs/pc/detail/down.png" />
               下载产品手册
             </div>
-            <div
-              @click="go720Address(productInfo && productInfo.overallViewUrl)"
-              class="btn-down-every two"
-            >
+            <div @click="go720Address(productInfo && productInfo.overallViewUrl)" class="btn-down-every two">
               <img src="../../assets/imgs/pc/detail/look.png" />720度看机
             </div>
-            <router-link
-              :to="{
-                path: '/product/comparison',
-                query: { productId: productInfo.id },
-              }"
-              class="btn-down-every three"
-              ><img
-                src="../../assets/imgs/pc/detail/compair.png"
-              />产品对比</router-link
-            >
+            <router-link :to="{
+              path: '/product/comparison',
+              query: { productId: productInfo.id },
+            }" class="btn-down-every three"><img src="../../assets/imgs/pc/detail/compair.png" />产品对比</router-link>
           </div>
           <div class="product-detail-btn-buy">
             <!-- 跳转微盟 -->
-            <a
-              v-if="productInfo.h5Url"
-              :href="productInfo.h5Url"
-              target="_blank"
-              class="btn-buy"
-              >立刻购买</a
-            >
+            <a v-if="productInfo.h5Url" :href="productInfo.h5Url" target="_blank" class="btn-buy">立刻购买</a>
             <div v-else class="btn-buy-gray">立刻购买</div>
 
             <!-- 跳转腾讯企点客服窗口 -->
@@ -162,85 +95,36 @@
             <div class="btn-lease" @click="leaseClick()">一键租赁</div>
           </div>
 
-          <el-dialog
-            v-if="leaseShow"
-            title="一键租赁"
-            v-model="leaseShow"
-            class="dialog-box"
-            :close-on-press-escape="false"
-            :close-on-click-modal="false"
-            center
-            width="520px"
-          >
+          <el-dialog v-if="leaseShow" title="一键租赁" v-model="leaseShow" class="dialog-box" :close-on-press-escape="false"
+            :close-on-click-modal="false" center width="520px">
             <div>
-              <el-form
-                ref="leaseForm"
-                :model="leaseFormData"
-                :rules="leaseFormRules"
-                label-width="82px"
-              >
+              <el-form ref="leaseForm" :model="leaseFormData" :rules="leaseFormRules" label-width="82px">
                 <el-form-item label="手机号：" prop="phoneNumber">
-                  <el-input
-                    type="tel"
-                    size="large"
-                    clearable
-                    placeholder="请输入手机号"
-                    v-model="leaseFormData.phoneNumber"
-                  ></el-input>
+                  <el-input type="tel" size="large" clearable placeholder="请输入手机号"
+                    v-model="leaseFormData.phoneNumber"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名：" prop="fullName">
-                  <el-input
-                    type="text"
-                    size="large"
-                    clearable
-                    placeholder="请输入姓名"
-                    v-model="leaseFormData.fullName"
-                  ></el-input>
+                  <el-input type="text" size="large" clearable placeholder="请输入姓名"
+                    v-model="leaseFormData.fullName"></el-input>
                 </el-form-item>
                 <el-form-item label="地址：" prop="addressList">
-                  <el-cascader
-                    :props="{ value: 'label' }"
-                    placeholder="请选择地址"
-                    :popper-append-to-body="false"
-                    size="large"
-                    v-model="leaseFormData.addressList"
-                    :options="cityList"
-                  />
+                  <el-cascader :props="{ value: 'label' }" placeholder="请选择地址" :popper-append-to-body="false" size="large"
+                    v-model="leaseFormData.addressList" :options="cityList" />
                 </el-form-item>
                 <el-form-item label="租赁日期：" prop="leaseTime">
-                  <el-date-picker
-                    size="large"
-                    v-model="leaseFormData.leaseTime"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    format="YYYY-MM-DD"
-                    value-format="YYYY-MM-DD"
-                  >
+                  <el-date-picker size="large" v-model="leaseFormData.leaseTime" type="daterange" range-separator="至"
+                    start-placeholder="开始日期" end-placeholder="结束日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD">
                   </el-date-picker>
                 </el-form-item>
                 <el-form-item label="备注：" prop="note">
-                  <el-input
-                    type="textarea"
-                    placeholder="请输入备注"
-                    v-model="leaseFormData.note"
-                  ></el-input>
+                  <el-input type="textarea" placeholder="请输入备注" v-model="leaseFormData.note"></el-input>
                 </el-form-item>
               </el-form>
             </div>
             <template #footer>
               <span class="dialog-footer">
-                <el-button size="large" @click="leaseShow = false"
-                  >取 消</el-button
-                >
-                <el-button
-                  type="primary"
-                  size="large"
-                  v-preventClick
-                  @click="leaseSure"
-                  >提 交</el-button
-                >
+                <el-button size="large" @click="leaseShow = false">取 消</el-button>
+                <el-button type="primary" size="large" v-preventClick @click="leaseSure">提 交</el-button>
               </span>
             </template>
           </el-dialog>
@@ -249,13 +133,7 @@
     </div>
 
     <div class="product-detail-main" v-if="productInfo">
-      <van-tabs
-        class="activity-tabs-container"
-        border
-        v-model:active="activeName"
-        color="#F5C71B"
-        background="#F5F5F5"
-      >
+      <van-tabs class="activity-tabs-container" border v-model:active="activeName" color="#F5C71B" background="#F5F5F5">
         <van-tab title="概览" name="first">
           <div v-html="productInfo.content" class="content"></div>
         </van-tab>
@@ -284,10 +162,7 @@
                       {{ productInfo.enginePower + "KW" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.engineCylinderBore"
-                  >
+                  <div class="params-every" v-if="productInfo.engineCylinderBore">
                     <div class="params parameter">缸径</div>
                     <div class="params">
                       {{ productInfo.engineCylinderBore + "mm" }}
@@ -299,10 +174,7 @@
                       {{ productInfo.engineStroke + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.engineDisplacement"
-                  >
+                  <div class="params-every" v-if="productInfo.engineDisplacement">
                     <div class="params parameter">排量</div>
                     <div class="params">
                       {{ productInfo.engineDisplacement + "L" }}
@@ -318,34 +190,24 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="
-                productInfo.rotaryMachinerySpeed ||
-                productInfo.rotaryMachineryMaxTorque
-              "
-            />
-            <div
-              v-if="
-                productInfo.rotaryMachinerySpeed ||
-                productInfo.rotaryMachineryMaxTorque
-              "
-            >
+            <van-divider v-if="
+              productInfo.rotaryMachinerySpeed ||
+              productInfo.rotaryMachineryMaxTorque
+            " />
+            <div v-if="
+              productInfo.rotaryMachinerySpeed ||
+              productInfo.rotaryMachineryMaxTorque
+            ">
               <div class="engine">
                 <div class="title">回转机械装置</div>
                 <div class="engine-params">
-                  <div
-                    class="params-every"
-                    v-if="productInfo.rotaryMachinerySpeed"
-                  >
+                  <div class="params-every" v-if="productInfo.rotaryMachinerySpeed">
                     <div class="params parameter">回转速度</div>
                     <div class="params">
                       {{ productInfo.rotaryMachinerySpeed + "rpm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.rotaryMachineryMaxTorque"
-                  >
+                  <div class="params-every" v-if="productInfo.rotaryMachineryMaxTorque">
                     <div class="params parameter">最大回转扭矩</div>
                     <div class="params">
                       {{ productInfo.rotaryMachineryMaxTorque + "KN.m" }}
@@ -370,123 +232,89 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="
-                productInfo.hydraulicArmCylinderBore ||
-                productInfo.hydraulicArmCylinderStroke ||
-                productInfo.hydraulicBoomCylinderBore ||
-                productInfo.hydraulicBoomCylinderStroke ||
-                productInfo.hydraulicBucketCylinderBore ||
-                productInfo.hydraulicBucketCylinderStroke ||
-                productInfo.hydraulicEquipmentMaxPressure ||
-                productInfo.hydraulicMaxSystemFlow ||
-                productInfo.hydraulicRotationMaxPressure ||
-                productInfo.hydraulicSteerMaxPressure
-              "
-            />
-            <div
-              v-if="
-                productInfo.hydraulicArmCylinderBore ||
-                productInfo.hydraulicArmCylinderStroke ||
-                productInfo.hydraulicBoomCylinderBore ||
-                productInfo.hydraulicBoomCylinderStroke ||
-                productInfo.hydraulicBucketCylinderBore ||
-                productInfo.hydraulicBucketCylinderStroke ||
-                productInfo.hydraulicEquipmentMaxPressure ||
-                productInfo.hydraulicMaxSystemFlow ||
-                productInfo.hydraulicRotationMaxPressure ||
-                productInfo.hydraulicSteerMaxPressure
-              "
-            >
+            <van-divider v-if="
+              productInfo.hydraulicArmCylinderBore ||
+              productInfo.hydraulicArmCylinderStroke ||
+              productInfo.hydraulicBoomCylinderBore ||
+              productInfo.hydraulicBoomCylinderStroke ||
+              productInfo.hydraulicBucketCylinderBore ||
+              productInfo.hydraulicBucketCylinderStroke ||
+              productInfo.hydraulicEquipmentMaxPressure ||
+              productInfo.hydraulicMaxSystemFlow ||
+              productInfo.hydraulicRotationMaxPressure ||
+              productInfo.hydraulicSteerMaxPressure
+            " />
+            <div v-if="
+              productInfo.hydraulicArmCylinderBore ||
+              productInfo.hydraulicArmCylinderStroke ||
+              productInfo.hydraulicBoomCylinderBore ||
+              productInfo.hydraulicBoomCylinderStroke ||
+              productInfo.hydraulicBucketCylinderBore ||
+              productInfo.hydraulicBucketCylinderStroke ||
+              productInfo.hydraulicEquipmentMaxPressure ||
+              productInfo.hydraulicMaxSystemFlow ||
+              productInfo.hydraulicRotationMaxPressure ||
+              productInfo.hydraulicSteerMaxPressure
+            ">
               <div class="engine">
                 <div class="title">液压系统</div>
                 <div class="engine-params">
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicArmCylinderBore"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicArmCylinderBore">
                     <div class="params parameter">斗杆油缸-缸径</div>
                     <div class="params">
                       {{ productInfo.hydraulicArmCylinderBore + "mm" }}
                     </div>
                   </div>
 
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicArmCylinderStroke"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicArmCylinderStroke">
                     <div class="params parameter">斗杆油缸-冲程</div>
                     <div class="params">
                       {{ productInfo.hydraulicArmCylinderStroke + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicBoomCylinderBore"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicBoomCylinderBore">
                     <div class="params parameter">动臂油缸-缸径</div>
                     <div class="params">
                       {{ productInfo.hydraulicBoomCylinderBore + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicBoomCylinderStroke"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicBoomCylinderStroke">
                     <div class="params parameter">动臂油缸-冲程</div>
                     <div class="params">
                       {{ productInfo.hydraulicBoomCylinderStroke + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicBucketCylinderBore"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicBucketCylinderBore">
                     <div class="params parameter">铲斗油缸-缸径</div>
                     <div class="params">
                       {{ productInfo.hydraulicBucketCylinderBore + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicBucketCylinderStroke"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicBucketCylinderStroke">
                     <div class="params parameter">铲斗油缸-冲程</div>
                     <div class="params">
                       {{ productInfo.hydraulicBucketCylinderStroke + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicEquipmentMaxPressure"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicEquipmentMaxPressure">
                     <div class="params parameter">最大压力-设备-执行</div>
                     <div class="params">
                       {{ productInfo.hydraulicEquipmentMaxPressure + "kPa" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicMaxSystemFlow"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicMaxSystemFlow">
                     <div class="params parameter">最大流量-执行</div>
                     <div class="params">
                       {{ productInfo.hydraulicMaxSystemFlow }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicRotationMaxPressure"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicRotationMaxPressure">
                     <div class="params parameter">最大压力-回转</div>
                     <div class="params">
                       {{ productInfo.hydraulicRotationMaxPressure + "kPa" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicSteerMaxPressure"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicSteerMaxPressure">
                     <div class="params parameter">最大压力-行驶</div>
                     <div class="params">
                       {{ productInfo.hydraulicSteerMaxPressure + "kPa" }}
@@ -496,22 +324,18 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="
-                productInfo.trackWidth ||
-                productInfo.trackNum ||
-                productInfo.trackThrustWheelNum ||
-                productInfo.trackCarrierSprocketNum
-              "
-            />
-            <div
-              v-if="
-                productInfo.trackWidth ||
-                productInfo.trackNum ||
-                productInfo.trackThrustWheelNum ||
-                productInfo.trackCarrierSprocketNum
-              "
-            >
+            <van-divider v-if="
+              productInfo.trackWidth ||
+              productInfo.trackNum ||
+              productInfo.trackThrustWheelNum ||
+              productInfo.trackCarrierSprocketNum
+            " />
+            <div v-if="
+              productInfo.trackWidth ||
+              productInfo.trackNum ||
+              productInfo.trackThrustWheelNum ||
+              productInfo.trackCarrierSprocketNum
+            ">
               <div class="engine">
                 <div class="title">履带</div>
                 <div class="engine-params">
@@ -527,19 +351,13 @@
                       {{ productInfo.trackNum }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.trackThrustWheelNum"
-                  >
+                  <div class="params-every" v-if="productInfo.trackThrustWheelNum">
                     <div class="params parameter">履带支重轮数量(每侧)</div>
                     <div class="params">
                       {{ productInfo.trackThrustWheelNum }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.trackCarrierSprocketNum"
-                  >
+                  <div class="params-every" v-if="productInfo.trackCarrierSprocketNum">
                     <div class="params parameter">托链轮数量(每侧)</div>
                     <div class="params">
                       {{ productInfo.trackCarrierSprocketNum }}
@@ -549,20 +367,16 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="
-                productInfo.driveGradient ||
-                productInfo.driveMaxSpeed ||
-                productInfo.driveMaxTraction
-              "
-            />
-            <div
-              v-if="
-                productInfo.driveGradient ||
-                productInfo.driveMaxSpeed ||
-                productInfo.driveMaxTraction
-              "
-            >
+            <van-divider v-if="
+              productInfo.driveGradient ||
+              productInfo.driveMaxSpeed ||
+              productInfo.driveMaxTraction
+            " />
+            <div v-if="
+              productInfo.driveGradient ||
+              productInfo.driveMaxSpeed ||
+              productInfo.driveMaxTraction
+            ">
               <div class="engine">
                 <div class="title">驱动</div>
                 <div class="engine-params">
@@ -588,32 +402,28 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="
-                productInfo.capacityFuelTank ||
-                productInfo.capacityCooling ||
-                productInfo.capacityEngineOil ||
-                productInfo.capacityRotationDrive ||
-                productInfo.capacityFinalDrive ||
-                productInfo.capacityHydraulicSystem ||
-                productInfo.capacityHydraulicTank ||
-                productInfo.bucketCapacity ||
-                productInfo.maxReachRange
-              "
-            />
-            <div
-              v-if="
-                productInfo.capacityFuelTank ||
-                productInfo.capacityCooling ||
-                productInfo.capacityEngineOil ||
-                productInfo.capacityRotationDrive ||
-                productInfo.capacityFinalDrive ||
-                productInfo.capacityHydraulicSystem ||
-                productInfo.capacityHydraulicTank ||
-                productInfo.bucketCapacity ||
-                productInfo.maxReachRange
-              "
-            >
+            <van-divider v-if="
+              productInfo.capacityFuelTank ||
+              productInfo.capacityCooling ||
+              productInfo.capacityEngineOil ||
+              productInfo.capacityRotationDrive ||
+              productInfo.capacityFinalDrive ||
+              productInfo.capacityHydraulicSystem ||
+              productInfo.capacityHydraulicTank ||
+              productInfo.bucketCapacity ||
+              productInfo.maxReachRange
+            " />
+            <div v-if="
+              productInfo.capacityFuelTank ||
+              productInfo.capacityCooling ||
+              productInfo.capacityEngineOil ||
+              productInfo.capacityRotationDrive ||
+              productInfo.capacityFinalDrive ||
+              productInfo.capacityHydraulicSystem ||
+              productInfo.capacityHydraulicTank ||
+              productInfo.bucketCapacity ||
+              productInfo.maxReachRange
+            ">
               <div class="engine">
                 <div class="title">维修加注容量</div>
                 <div class="engine-params">
@@ -641,46 +451,31 @@
                       {{ productInfo.capacityCooling + "L" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.capacityEngineOil"
-                  >
+                  <div class="params-every" v-if="productInfo.capacityEngineOil">
                     <div class="params parameter">发动机机油(含滤清器)</div>
                     <div class="params">
                       {{ productInfo.capacityEngineOil + "L" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.capacityRotationDrive"
-                  >
+                  <div class="params-every" v-if="productInfo.capacityRotationDrive">
                     <div class="params parameter">回转驱动(每个)</div>
                     <div class="params">
                       {{ productInfo.capacityRotationDrive + "L" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.capacityFinalDrive"
-                  >
+                  <div class="params-every" v-if="productInfo.capacityFinalDrive">
                     <div class="params parameter">终传动(每个)</div>
                     <div class="params">
                       {{ productInfo.capacityFinalDrive + "L" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.capacityHydraulicSystem"
-                  >
+                  <div class="params-every" v-if="productInfo.capacityHydraulicSystem">
                     <div class="params parameter">液压系统油容量(含油箱)</div>
                     <div class="params">
                       {{ productInfo.capacityHydraulicSystem }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.capacityHydraulicTank"
-                  >
+                  <div class="params-every" v-if="productInfo.capacityHydraulicTank">
                     <div class="params parameter">液压油箱(含吸入管)</div>
                     <div class="params">
                       {{ productInfo.capacityHydraulicTank }}
@@ -690,9 +485,7 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="productInfo.extendBoom || productInfo.largeVolumeBoom"
-            />
+            <van-divider v-if="productInfo.extendBoom || productInfo.largeVolumeBoom" />
             <div v-if="productInfo.extendBoom || productInfo.largeVolumeBoom">
               <div class="engine">
                 <div class="title">动臂</div>
@@ -713,9 +506,7 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="productInfo.extendStick || productInfo.largeVolumeStick"
-            />
+            <van-divider v-if="productInfo.extendStick || productInfo.largeVolumeStick" />
             <div v-if="productInfo.extendStick || productInfo.largeVolumeStick">
               <div class="engine">
                 <div class="title">斗杆</div>
@@ -739,17 +530,9 @@
         </van-tab>
         <van-tab title="工装机具" name="third">
           <div class="tools-list-content">
-            <div
-              v-for="(item, index) in productInfo.toolList"
-              :key="index"
-              class="item"
-              @click="checkTools(item)"
-            >
+            <div v-for="(item, index) in productInfo.toolList" :key="index" class="item" @click="checkTools(item)">
               <div class="item-img">
-                <img
-                  class="img"
-                  :src="base_request_url + '/file/' + item.imgUrl"
-                />
+                <img class="img" :src="base_request_url + '/file/' + item.imgUrl" />
               </div>
               <div class="name">{{ item.toolName }}</div>
             </div>
@@ -758,22 +541,14 @@
       </van-tabs>
     </div>
 
-    <div
-      v-if="productInfo && productInfo.recycleList.length > 0"
-      class="second-container grab-tabs-pc-container"
-    >
+    <div v-if="productInfo && productInfo.recycleList.length > 0" class="second-container grab-tabs-pc-container">
       <div class="home-title-six">
         <div>相关二手机推荐</div>
       </div>
       <div class="product-list-content">
-        <div
-          v-for="(item, index) in productInfo.recycleList"
-          :key="index"
-          class="item"
-          @click="checkDetail(item)"
-        >
+        <div v-for="(item, index) in productInfo.recycleList" :key="index" class="item" @click="checkDetail(item)">
           <div class="item-img">
-            <img class="img" :src="base_request_url + '/file/' + item.imgUrl" />
+            <img class="img" :src="base_request_url + '/file/' + item.imgUrl.split('|')[0]" />
           </div>
           <div class="title">{{ item.model }}</div>
           <div class="btn">了解详情</div>
@@ -781,24 +556,16 @@
       </div>
     </div>
   </div>
-  <div v-else-if="cliWidth > 768 && cliWidth < 1001">
+  <div v-show="cliWidth > 768 && cliWidth < 1001">
     <el-carousel class="my-swipe" :autoplay="false" height="50vh">
       <el-carousel-item v-for="(item, index) of imgList" :key="index">
         <img :src="base_request_url + '/file/' + item" class="swipe-img" />
       </el-carousel-item>
       <el-carousel-item v-for="(item, index) of videoList" :key="index">
-        <video
-          style="width: 100%; height: 100%; cursor: pointer; object-fit: cover"
-          :src="base_request_url + '/file/' + item"
-          controls
-          preload="auto"
-          webkit-playsinline="true"
-          playsinline="true"
-          x-webkit-airplay="allow"
-          x5-video-player-type="h5"
-          x5-video-player-fullscreen="true"
-          x5-video-orientation="portraint"
-        ></video>
+        <video style="width: 100%; height: 100%; cursor: pointer; object-fit: cover"
+          :src="base_request_url + '/file/' + item" controls preload="auto" webkit-playsinline="true" playsinline="true"
+          x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-player-fullscreen="true"
+          x5-video-orientation="portraint"></video>
       </el-carousel-item>
     </el-carousel>
 
@@ -818,7 +585,7 @@
             <div class="global-params-every">
               工作重量：{{ productInfo.weightWork + " kg" }}
             </div>
-            <div class="global-params-every">
+            <div class="global-params-every" v-if="productInfo.bucketCapacity">
               铲斗容量：{{ productInfo.bucketCapacity + " m³" }}
             </div>
             <div class="global-params-every" v-if="productInfo.maxReachRange">
@@ -830,32 +597,17 @@
               <img src="../../assets/imgs/pc/detail/down.png" />
               下载产品手册
             </div>
-            <div
-              @click="go720Address(productInfo && productInfo.overallViewUrl)"
-              class="btn-down-every two"
-            >
+            <div @click="go720Address(productInfo && productInfo.overallViewUrl)" class="btn-down-every two">
               <img src="../../assets/imgs/pc/detail/look.png" />720度看机
             </div>
-            <router-link
-              :to="{
-                path: '/product/comparison',
-                query: { productId: productInfo.id },
-              }"
-              class="btn-down-every three"
-              ><img
-                src="../../assets/imgs/pc/detail/compair.png"
-              />产品对比</router-link
-            >
+            <router-link :to="{
+              path: '/product/comparison',
+              query: { productId: productInfo.id },
+            }" class="btn-down-every three"><img src="../../assets/imgs/pc/detail/compair.png" />产品对比</router-link>
           </div>
           <div class="product-detail-btn-buy">
             <!-- 跳转微盟 -->
-            <a
-              v-if="productInfo.h5Url"
-              :href="productInfo.h5Url"
-              target="_blank"
-              class="btn-buy"
-              >立刻购买</a
-            >
+            <a v-if="productInfo.h5Url" :href="productInfo.h5Url" target="_blank" class="btn-buy">立刻购买</a>
             <div v-else class="btn-buy-gray">立刻购买</div>
 
             <!-- 跳转腾讯企点客服窗口 -->
@@ -863,85 +615,36 @@
             <div class="btn-lease" @click="leaseClick()">一键租赁</div>
           </div>
 
-          <el-dialog
-            v-if="leaseShow"
-            title="一键租赁"
-            v-model="leaseShow"
-            class="dialog-box"
-            :close-on-press-escape="false"
-            :close-on-click-modal="false"
-            center
-            width="520px"
-          >
+          <el-dialog v-if="leaseShow" title="一键租赁" v-model="leaseShow" class="dialog-box" :close-on-press-escape="false"
+            :close-on-click-modal="false" center width="520px">
             <div>
-              <el-form
-                ref="leaseForm"
-                :model="leaseFormData"
-                :rules="leaseFormRules"
-                label-width="82px"
-              >
+              <el-form ref="leaseForm" :model="leaseFormData" :rules="leaseFormRules" label-width="82px">
                 <el-form-item label="手机号：" prop="phoneNumber">
-                  <el-input
-                    type="tel"
-                    size="large"
-                    clearable
-                    placeholder="请输入手机号"
-                    v-model="leaseFormData.phoneNumber"
-                  ></el-input>
+                  <el-input type="tel" size="large" clearable placeholder="请输入手机号"
+                    v-model="leaseFormData.phoneNumber"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名：" prop="fullName">
-                  <el-input
-                    type="text"
-                    size="large"
-                    clearable
-                    placeholder="请输入姓名"
-                    v-model="leaseFormData.fullName"
-                  ></el-input>
+                  <el-input type="text" size="large" clearable placeholder="请输入姓名"
+                    v-model="leaseFormData.fullName"></el-input>
                 </el-form-item>
                 <el-form-item label="地址：" prop="addressList">
-                  <el-cascader
-                    :props="{ value: 'label' }"
-                    placeholder="请选择地址"
-                    :popper-append-to-body="false"
-                    size="large"
-                    v-model="leaseFormData.addressList"
-                    :options="cityList"
-                  />
+                  <el-cascader :props="{ value: 'label' }" placeholder="请选择地址" :popper-append-to-body="false" size="large"
+                    v-model="leaseFormData.addressList" :options="cityList" />
                 </el-form-item>
                 <el-form-item label="租赁日期：" prop="leaseTime">
-                  <el-date-picker
-                    size="large"
-                    v-model="leaseFormData.leaseTime"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    format="YYYY-MM-DD"
-                    value-format="YYYY-MM-DD"
-                  >
+                  <el-date-picker size="large" v-model="leaseFormData.leaseTime" type="daterange" range-separator="至"
+                    start-placeholder="开始日期" end-placeholder="结束日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD">
                   </el-date-picker>
                 </el-form-item>
                 <el-form-item label="备注：" prop="note">
-                  <el-input
-                    type="textarea"
-                    placeholder="请输入备注"
-                    v-model="leaseFormData.note"
-                  ></el-input>
+                  <el-input type="textarea" placeholder="请输入备注" v-model="leaseFormData.note"></el-input>
                 </el-form-item>
               </el-form>
             </div>
             <template #footer>
               <span class="dialog-footer">
-                <el-button size="large" @click="leaseShow = false"
-                  >取 消</el-button
-                >
-                <el-button
-                  type="primary"
-                  size="large"
-                  v-preventClick
-                  @click="leaseSure"
-                  >提 交</el-button
-                >
+                <el-button size="large" @click="leaseShow = false">取 消</el-button>
+                <el-button type="primary" size="large" v-preventClick @click="leaseSure">提 交</el-button>
               </span>
             </template>
           </el-dialog>
@@ -950,13 +653,7 @@
     </div>
 
     <div class="product-detail-main" v-if="productInfo">
-      <van-tabs
-        class="activity-tabs-container"
-        border
-        v-model:active="activeName"
-        color="#F5C71B"
-        background="#F5F5F5"
-      >
+      <van-tabs class="activity-tabs-container" border v-model:active="activeName" color="#F5C71B" background="#F5F5F5">
         <van-tab title="概览" name="first">
           <div v-html="productInfo.content" class="content"></div>
         </van-tab>
@@ -985,10 +682,7 @@
                       {{ productInfo.enginePower + "KW" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.engineCylinderBore"
-                  >
+                  <div class="params-every" v-if="productInfo.engineCylinderBore">
                     <div class="params parameter">缸径</div>
                     <div class="params">
                       {{ productInfo.engineCylinderBore + "mm" }}
@@ -1000,10 +694,7 @@
                       {{ productInfo.engineStroke + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.engineDisplacement"
-                  >
+                  <div class="params-every" v-if="productInfo.engineDisplacement">
                     <div class="params parameter">排量</div>
                     <div class="params">
                       {{ productInfo.engineDisplacement + "L" }}
@@ -1019,34 +710,24 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="
-                productInfo.rotaryMachinerySpeed ||
-                productInfo.rotaryMachineryMaxTorque
-              "
-            />
-            <div
-              v-if="
-                productInfo.rotaryMachinerySpeed ||
-                productInfo.rotaryMachineryMaxTorque
-              "
-            >
+            <van-divider v-if="
+              productInfo.rotaryMachinerySpeed ||
+              productInfo.rotaryMachineryMaxTorque
+            " />
+            <div v-if="
+              productInfo.rotaryMachinerySpeed ||
+              productInfo.rotaryMachineryMaxTorque
+            ">
               <div class="engine">
                 <div class="title">回转机械装置</div>
                 <div class="engine-params">
-                  <div
-                    class="params-every"
-                    v-if="productInfo.rotaryMachinerySpeed"
-                  >
+                  <div class="params-every" v-if="productInfo.rotaryMachinerySpeed">
                     <div class="params parameter">回转速度</div>
                     <div class="params">
                       {{ productInfo.rotaryMachinerySpeed + "rpm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.rotaryMachineryMaxTorque"
-                  >
+                  <div class="params-every" v-if="productInfo.rotaryMachineryMaxTorque">
                     <div class="params parameter">最大回转扭矩</div>
                     <div class="params">
                       {{ productInfo.rotaryMachineryMaxTorque + "KN.m" }}
@@ -1071,123 +752,89 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="
-                productInfo.hydraulicArmCylinderBore ||
-                productInfo.hydraulicArmCylinderStroke ||
-                productInfo.hydraulicBoomCylinderBore ||
-                productInfo.hydraulicBoomCylinderStroke ||
-                productInfo.hydraulicBucketCylinderBore ||
-                productInfo.hydraulicBucketCylinderStroke ||
-                productInfo.hydraulicEquipmentMaxPressure ||
-                productInfo.hydraulicMaxSystemFlow ||
-                productInfo.hydraulicRotationMaxPressure ||
-                productInfo.hydraulicSteerMaxPressure
-              "
-            />
-            <div
-              v-if="
-                productInfo.hydraulicArmCylinderBore ||
-                productInfo.hydraulicArmCylinderStroke ||
-                productInfo.hydraulicBoomCylinderBore ||
-                productInfo.hydraulicBoomCylinderStroke ||
-                productInfo.hydraulicBucketCylinderBore ||
-                productInfo.hydraulicBucketCylinderStroke ||
-                productInfo.hydraulicEquipmentMaxPressure ||
-                productInfo.hydraulicMaxSystemFlow ||
-                productInfo.hydraulicRotationMaxPressure ||
-                productInfo.hydraulicSteerMaxPressure
-              "
-            >
+            <van-divider v-if="
+              productInfo.hydraulicArmCylinderBore ||
+              productInfo.hydraulicArmCylinderStroke ||
+              productInfo.hydraulicBoomCylinderBore ||
+              productInfo.hydraulicBoomCylinderStroke ||
+              productInfo.hydraulicBucketCylinderBore ||
+              productInfo.hydraulicBucketCylinderStroke ||
+              productInfo.hydraulicEquipmentMaxPressure ||
+              productInfo.hydraulicMaxSystemFlow ||
+              productInfo.hydraulicRotationMaxPressure ||
+              productInfo.hydraulicSteerMaxPressure
+            " />
+            <div v-if="
+              productInfo.hydraulicArmCylinderBore ||
+              productInfo.hydraulicArmCylinderStroke ||
+              productInfo.hydraulicBoomCylinderBore ||
+              productInfo.hydraulicBoomCylinderStroke ||
+              productInfo.hydraulicBucketCylinderBore ||
+              productInfo.hydraulicBucketCylinderStroke ||
+              productInfo.hydraulicEquipmentMaxPressure ||
+              productInfo.hydraulicMaxSystemFlow ||
+              productInfo.hydraulicRotationMaxPressure ||
+              productInfo.hydraulicSteerMaxPressure
+            ">
               <div class="engine">
                 <div class="title">液压系统</div>
                 <div class="engine-params">
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicArmCylinderBore"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicArmCylinderBore">
                     <div class="params parameter">斗杆油缸-缸径</div>
                     <div class="params">
                       {{ productInfo.hydraulicArmCylinderBore + "mm" }}
                     </div>
                   </div>
 
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicArmCylinderStroke"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicArmCylinderStroke">
                     <div class="params parameter">斗杆油缸-冲程</div>
                     <div class="params">
                       {{ productInfo.hydraulicArmCylinderStroke + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicBoomCylinderBore"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicBoomCylinderBore">
                     <div class="params parameter">动臂油缸-缸径</div>
                     <div class="params">
                       {{ productInfo.hydraulicBoomCylinderBore + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicBoomCylinderStroke"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicBoomCylinderStroke">
                     <div class="params parameter">动臂油缸-冲程</div>
                     <div class="params">
                       {{ productInfo.hydraulicBoomCylinderStroke + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicBucketCylinderBore"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicBucketCylinderBore">
                     <div class="params parameter">铲斗油缸-缸径</div>
                     <div class="params">
                       {{ productInfo.hydraulicBucketCylinderBore + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicBucketCylinderStroke"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicBucketCylinderStroke">
                     <div class="params parameter">铲斗油缸-冲程</div>
                     <div class="params">
                       {{ productInfo.hydraulicBucketCylinderStroke + "mm" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicEquipmentMaxPressure"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicEquipmentMaxPressure">
                     <div class="params parameter">最大压力-设备-执行</div>
                     <div class="params">
                       {{ productInfo.hydraulicEquipmentMaxPressure + "kPa" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicMaxSystemFlow"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicMaxSystemFlow">
                     <div class="params parameter">最大流量-执行</div>
                     <div class="params">
                       {{ productInfo.hydraulicMaxSystemFlow }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicRotationMaxPressure"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicRotationMaxPressure">
                     <div class="params parameter">最大压力-回转</div>
                     <div class="params">
                       {{ productInfo.hydraulicRotationMaxPressure + "kPa" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.hydraulicSteerMaxPressure"
-                  >
+                  <div class="params-every" v-if="productInfo.hydraulicSteerMaxPressure">
                     <div class="params parameter">最大压力-行驶</div>
                     <div class="params">
                       {{ productInfo.hydraulicSteerMaxPressure + "kPa" }}
@@ -1197,22 +844,18 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="
-                productInfo.trackWidth ||
-                productInfo.trackNum ||
-                productInfo.trackThrustWheelNum ||
-                productInfo.trackCarrierSprocketNum
-              "
-            />
-            <div
-              v-if="
-                productInfo.trackWidth ||
-                productInfo.trackNum ||
-                productInfo.trackThrustWheelNum ||
-                productInfo.trackCarrierSprocketNum
-              "
-            >
+            <van-divider v-if="
+              productInfo.trackWidth ||
+              productInfo.trackNum ||
+              productInfo.trackThrustWheelNum ||
+              productInfo.trackCarrierSprocketNum
+            " />
+            <div v-if="
+              productInfo.trackWidth ||
+              productInfo.trackNum ||
+              productInfo.trackThrustWheelNum ||
+              productInfo.trackCarrierSprocketNum
+            ">
               <div class="engine">
                 <div class="title">履带</div>
                 <div class="engine-params">
@@ -1228,19 +871,13 @@
                       {{ productInfo.trackNum }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.trackThrustWheelNum"
-                  >
+                  <div class="params-every" v-if="productInfo.trackThrustWheelNum">
                     <div class="params parameter">履带支重轮数量(每侧)</div>
                     <div class="params">
                       {{ productInfo.trackThrustWheelNum }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.trackCarrierSprocketNum"
-                  >
+                  <div class="params-every" v-if="productInfo.trackCarrierSprocketNum">
                     <div class="params parameter">托链轮数量(每侧)</div>
                     <div class="params">
                       {{ productInfo.trackCarrierSprocketNum }}
@@ -1250,20 +887,16 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="
-                productInfo.driveGradient ||
-                productInfo.driveMaxSpeed ||
-                productInfo.driveMaxTraction
-              "
-            />
-            <div
-              v-if="
-                productInfo.driveGradient ||
-                productInfo.driveMaxSpeed ||
-                productInfo.driveMaxTraction
-              "
-            >
+            <van-divider v-if="
+              productInfo.driveGradient ||
+              productInfo.driveMaxSpeed ||
+              productInfo.driveMaxTraction
+            " />
+            <div v-if="
+              productInfo.driveGradient ||
+              productInfo.driveMaxSpeed ||
+              productInfo.driveMaxTraction
+            ">
               <div class="engine">
                 <div class="title">驱动</div>
                 <div class="engine-params">
@@ -1289,32 +922,28 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="
-                productInfo.capacityFuelTank ||
-                productInfo.capacityCooling ||
-                productInfo.capacityEngineOil ||
-                productInfo.capacityRotationDrive ||
-                productInfo.capacityFinalDrive ||
-                productInfo.capacityHydraulicSystem ||
-                productInfo.capacityHydraulicTank ||
-                productInfo.bucketCapacity ||
-                productInfo.maxReachRange
-              "
-            />
-            <div
-              v-if="
-                productInfo.capacityFuelTank ||
-                productInfo.capacityCooling ||
-                productInfo.capacityEngineOil ||
-                productInfo.capacityRotationDrive ||
-                productInfo.capacityFinalDrive ||
-                productInfo.capacityHydraulicSystem ||
-                productInfo.capacityHydraulicTank ||
-                productInfo.bucketCapacity ||
-                productInfo.maxReachRange
-              "
-            >
+            <van-divider v-if="
+              productInfo.capacityFuelTank ||
+              productInfo.capacityCooling ||
+              productInfo.capacityEngineOil ||
+              productInfo.capacityRotationDrive ||
+              productInfo.capacityFinalDrive ||
+              productInfo.capacityHydraulicSystem ||
+              productInfo.capacityHydraulicTank ||
+              productInfo.bucketCapacity ||
+              productInfo.maxReachRange
+            " />
+            <div v-if="
+              productInfo.capacityFuelTank ||
+              productInfo.capacityCooling ||
+              productInfo.capacityEngineOil ||
+              productInfo.capacityRotationDrive ||
+              productInfo.capacityFinalDrive ||
+              productInfo.capacityHydraulicSystem ||
+              productInfo.capacityHydraulicTank ||
+              productInfo.bucketCapacity ||
+              productInfo.maxReachRange
+            ">
               <div class="engine">
                 <div class="title">维修加注容量</div>
                 <div class="engine-params">
@@ -1342,46 +971,31 @@
                       {{ productInfo.capacityCooling + "L" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.capacityEngineOil"
-                  >
+                  <div class="params-every" v-if="productInfo.capacityEngineOil">
                     <div class="params parameter">发动机机油(含滤清器)</div>
                     <div class="params">
                       {{ productInfo.capacityEngineOil + "L" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.capacityRotationDrive"
-                  >
+                  <div class="params-every" v-if="productInfo.capacityRotationDrive">
                     <div class="params parameter">回转驱动(每个)</div>
                     <div class="params">
                       {{ productInfo.capacityRotationDrive + "L" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.capacityFinalDrive"
-                  >
+                  <div class="params-every" v-if="productInfo.capacityFinalDrive">
                     <div class="params parameter">终传动(每个)</div>
                     <div class="params">
                       {{ productInfo.capacityFinalDrive + "L" }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.capacityHydraulicSystem"
-                  >
+                  <div class="params-every" v-if="productInfo.capacityHydraulicSystem">
                     <div class="params parameter">液压系统油容量(含油箱)</div>
                     <div class="params">
                       {{ productInfo.capacityHydraulicSystem }}
                     </div>
                   </div>
-                  <div
-                    class="params-every"
-                    v-if="productInfo.capacityHydraulicTank"
-                  >
+                  <div class="params-every" v-if="productInfo.capacityHydraulicTank">
                     <div class="params parameter">液压油箱(含吸入管)</div>
                     <div class="params">
                       {{ productInfo.capacityHydraulicTank }}
@@ -1391,9 +1005,7 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="productInfo.extendBoom || productInfo.largeVolumeBoom"
-            />
+            <van-divider v-if="productInfo.extendBoom || productInfo.largeVolumeBoom" />
             <div v-if="productInfo.extendBoom || productInfo.largeVolumeBoom">
               <div class="engine">
                 <div class="title">动臂</div>
@@ -1414,9 +1026,7 @@
               </div>
             </div>
 
-            <van-divider
-              v-if="productInfo.extendStick || productInfo.largeVolumeStick"
-            />
+            <van-divider v-if="productInfo.extendStick || productInfo.largeVolumeStick" />
             <div v-if="productInfo.extendStick || productInfo.largeVolumeStick">
               <div class="engine">
                 <div class="title">斗杆</div>
@@ -1440,17 +1050,9 @@
         </van-tab>
         <van-tab title="工装机具" name="third">
           <div class="tools-list-content">
-            <div
-              v-for="(item, index) in productInfo.toolList"
-              :key="index"
-              class="item"
-              @click="checkTools(item)"
-            >
+            <div v-for="(item, index) in productInfo.toolList" :key="index" class="item" @click="checkTools(item)">
               <div class="item-img">
-                <img
-                  class="img"
-                  :src="base_request_url + '/file/' + item.imgUrl"
-                />
+                <img class="img" :src="base_request_url + '/file/' + item.imgUrl" />
               </div>
               <div class="name">{{ item.toolName }}</div>
             </div>
@@ -1459,22 +1061,14 @@
       </van-tabs>
     </div>
 
-    <div
-      v-if="productInfo && productInfo.recycleList.length > 0"
-      class="second-container grab-tabs-pc-container"
-    >
+    <div v-if="productInfo && productInfo.recycleList.length > 0" class="second-container grab-tabs-pc-container">
       <div class="home-title-six">
         <div>相关二手机推荐</div>
       </div>
       <div class="product-list-content">
-        <div
-          v-for="(item, index) in productInfo.recycleList"
-          :key="index"
-          class="item"
-          @click="checkDetail(item)"
-        >
+        <div v-for="(item, index) in productInfo.recycleList" :key="index" class="item" @click="checkDetail(item)">
           <div class="item-img">
-            <img class="img" :src="base_request_url + '/file/' + item.imgUrl" />
+            <img class="img" :src="base_request_url + '/file/' + item.imgUrl.split('|')[0]" />
           </div>
           <div class="title">{{ item.model }}</div>
           <div class="btn">了解详情</div>
@@ -1482,24 +1076,16 @@
       </div>
     </div>
   </div>
-  <div v-else>
+  <div v-show="cliWidth < 769">
     <van-swipe class="my-swipe" indicator-color="white">
       <van-swipe-item v-for="(item, index) of imgList" :key="index">
         <img :src="base_request_url + '/file/' + item" class="swipe-img" />
       </van-swipe-item>
       <van-swipe-item v-for="(item, index) of videoList" :key="index">
-        <video
-          style="width: 100%; height: 50vh; cursor: pointer; object-fit: fill"
-          :src="base_request_url + '/file/' + item"
-          controls
-          preload="auto"
-          webkit-playsinline="true"
-          playsinline="true"
-          x-webkit-airplay="allow"
-          x5-video-player-type="h5"
-          x5-video-player-fullscreen="true"
-          x5-video-orientation="portraint"
-        ></video>
+        <video style="width: 100%; height: 50vh; cursor: pointer; object-fit: cover"
+          :src="base_request_url + '/file/' + item" controls preload="auto" webkit-playsinline="true" playsinline="true"
+          x-webkit-airplay="allow" x5-video-player-type="h5" x5-video-player-fullscreen="true"
+          x5-video-orientation="portraint"></video>
       </van-swipe-item>
     </van-swipe>
     <div v-if="productInfo" class="product-detail-content">
@@ -1516,7 +1102,7 @@
         <div class="global-params-every">
           工作重量：{{ productInfo.weightWork + " kg" }}
         </div>
-        <div class="global-params-every">
+        <div class="global-params-every" v-if="productInfo.bucketCapacity">
           铲斗容量：{{ productInfo.bucketCapacity + " m³" }}
         </div>
         <div class="global-params-every" v-if="productInfo.maxReachRange">
@@ -1528,122 +1114,56 @@
           <img src="../../assets/imgs/pc/detail/down.png" />
           下载产品手册
         </div>
-        <div
-          @click="go720Address(productInfo && productInfo.overallViewUrl)"
-          target="_blank"
-          class="btn-down-every two"
-        >
+        <div @click="go720Address(productInfo && productInfo.overallViewUrl)" target="_blank" class="btn-down-every two">
           <img src="../../assets/imgs/pc/detail/look.png" />720度看机
         </div>
-        <router-link
-          :to="{
-            path: '/product/comparison',
-            query: { productId: productInfo.id },
-          }"
-          class="btn-down-every three"
-          ><img
-            src="../../assets/imgs/pc/detail/compair.png"
-          />产品对比</router-link
-        >
+        <router-link :to="{
+          path: '/product/comparison',
+          query: { productId: productInfo.id },
+        }" class="btn-down-every three"><img src="../../assets/imgs/pc/detail/compair.png" />产品对比</router-link>
       </div>
       <div class="product-detail-btn-buy">
         <!-- 跳转微盟 -->
-        <a
-          v-if="productInfo.h5Url"
-          :href="productInfo.h5Url"
-          target="_blank"
-          class="btn-buy"
-          >立刻购买</a
-        >
+        <a v-if="productInfo.h5Url" :href="productInfo.h5Url" target="_blank" class="btn-buy">立刻购买</a>
         <div v-else class="btn-buy-gray">立刻购买</div>
         <!-- 跳转腾讯企点客服窗口 -->
         <div class="btn-price" @click="askPrice">立即询价</div>
         <div class="btn-lease" @click="leaseClick()">一键租赁</div>
       </div>
 
-      <van-dialog
-        v-if="leaseShow"
-        v-model:show="leaseShow"
-        :show-confirm-button="false"
-        title="一键租赁"
-      >
+      <van-dialog v-if="leaseShow" v-model:show="leaseShow" :show-confirm-button="false" title="一键租赁">
         <div style="margin-top: 10px">
-          <van-form
-            ref="vanLeaseForm"
-            :validate-trigger="'onSubmit'"
-            @submit="leaseSure"
-          >
+          <van-form ref="vanLeaseForm" :validate-trigger="'onSubmit'" @submit="leaseSure">
             <van-cell-group inset>
-              <van-field
-                v-model="leaseFormData.phoneNumber"
-                type="tel"
-                label="手机号"
-                placeholder="请输入手机号"
-                :rules="[
-                  {
-                    required: true,
-                    message: '请填写手机号',
-                    trigger: ['onBlur', 'onSubmit'],
-                  },
-                ]"
-              />
-              <van-field
-                v-model="leaseFormData.fullName"
-                label="姓名"
-                placeholder="请输入姓名"
-                :rules="[
-                  {
-                    required: true,
-                    message: '请填写姓名',
-                    trigger: ['onBlur', 'onSubmit'],
-                  },
-                ]"
-              />
-              <van-field
-                v-model="leaseFormData.address"
-                label="地址"
-                placeholder="请输入地址"
-                :rules="[
-                  {
-                    required: true,
-                    message: '请填写地址',
-                    trigger: ['onBlur', 'onSubmit'],
-                  },
-                ]"
-                @click="showAddrPicker = true"
-              />
-              <van-field
-                v-model="leaseFormData.startDate"
-                is-link
-                readonly
-                label="开始日期"
-                placeholder="点击选择日期"
-                @click="showStartDatePicker = true"
-              />
-              <van-field
-                v-model="leaseFormData.endDate"
-                is-link
-                readonly
-                label="结束日期"
-                placeholder="点击选择日期"
-                @click="showEndDatePicker = true"
-              />
-              <van-field
-                v-model="leaseFormData.note"
-                rows="1"
-                autosize
-                label="备注"
-                type="textarea"
-                placeholder="请输入备注"
-              />
+              <van-field v-model="leaseFormData.phoneNumber" type="tel" label="手机号" placeholder="请输入手机号" :rules="[
+                {
+                  required: true,
+                  message: '请填写手机号',
+                  trigger: ['onBlur', 'onSubmit'],
+                },
+              ]" />
+              <van-field v-model="leaseFormData.fullName" label="姓名" placeholder="请输入姓名" :rules="[
+                {
+                  required: true,
+                  message: '请填写姓名',
+                  trigger: ['onBlur', 'onSubmit'],
+                },
+              ]" />
+              <van-field v-model="leaseFormData.address" label="地址" placeholder="请输入地址" :rules="[
+                {
+                  required: true,
+                  message: '请填写地址',
+                  trigger: ['onBlur', 'onSubmit'],
+                },
+              ]" @click="showAddrPicker = true" />
+              <van-field v-model="leaseFormData.startDate" is-link readonly label="开始日期" placeholder="点击选择日期"
+                @click="showStartDatePicker = true" />
+              <van-field v-model="leaseFormData.endDate" is-link readonly label="结束日期" placeholder="点击选择日期"
+                @click="showEndDatePicker = true" />
+              <van-field v-model="leaseFormData.note" rows="1" autosize label="备注" type="textarea" placeholder="请输入备注" />
             </van-cell-group>
             <div style="margin: 16px; display: flex">
-              <van-button
-                round
-                block
-                style="margin-right: 10px"
-                @click="leaseShow = false"
-              >
+              <van-button round block style="margin-right: 10px" @click="leaseShow = false">
                 取消
               </van-button>
               <van-button round block type="primary" native-type="submit">
@@ -1655,43 +1175,24 @@
       </van-dialog>
       <!-- 地址 -->
       <van-popup v-model:show="showAddrPicker" round position="bottom">
-        <van-area
-          v-model="leaseFormData.address"
-          :area-list="areaList"
-          @cancel="showAddrPicker = false"
-          @confirm="sellAddrConfirm"
-        />
+        <van-area v-model="leaseFormData.address" :area-list="areaList" @cancel="showAddrPicker = false"
+          @confirm="sellAddrConfirm" />
       </van-popup>
       <!-- 开始日期 -->
       <van-popup v-model:show="showStartDatePicker" position="bottom">
-        <van-datetime-picker
-          v-model="startDateSel"
-          type="date"
-          title="选择租赁日期"
-          @cancel="showStartDatePicker = false"
-          @confirm="onStartTimeConfirm"
-        />
+        <van-datetime-picker v-model="startDateSel" type="date" title="选择租赁日期" @cancel="showStartDatePicker = false"
+          @confirm="onStartTimeConfirm" />
       </van-popup>
       <!-- 结束日期 -->
       <van-popup v-model:show="showEndDatePicker" position="bottom">
-        <van-datetime-picker
-          v-model="endDateSel"
-          type="date"
-          title="选择租赁日期"
-          @cancel="showEndDatePicker = false"
-          @confirm="onEndTimeConfirm"
-        />
+        <van-datetime-picker v-model="endDateSel" type="date" title="选择租赁日期" @cancel="showEndDatePicker = false"
+          @confirm="onEndTimeConfirm" />
       </van-popup>
 
       <div class="product-detail-main">
         <!-- line-height="0" -->
-        <van-tabs
-          class="activity-tabs-container"
-          border
-          v-model:active="activeName"
-          color="#F5C71B "
-          background="#F5F5F5"
-        >
+        <van-tabs class="activity-tabs-container" border v-model:active="activeName" color="#F5C71B "
+          background="#F5F5F5">
           <van-tab title="概览" name="first">
             <div v-html="productInfo.content" class="content"></div>
           </van-tab>
@@ -1720,10 +1221,7 @@
                         {{ productInfo.enginePower + "KW" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.engineCylinderBore"
-                    >
+                    <div class="params-every" v-if="productInfo.engineCylinderBore">
                       <div class="params parameter">缸径</div>
                       <div class="params">
                         {{ productInfo.engineCylinderBore + "mm" }}
@@ -1735,19 +1233,13 @@
                         {{ productInfo.engineStroke + "mm" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.engineDisplacement"
-                    >
+                    <div class="params-every" v-if="productInfo.engineDisplacement">
                       <div class="params parameter">排量</div>
                       <div class="params">
                         {{ productInfo.engineDisplacement + "L" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.engineDieselUsed"
-                    >
+                    <div class="params-every" v-if="productInfo.engineDieselUsed">
                       <div class="params parameter">可使用生物柴油</div>
                       <div class="params">
                         {{ productInfo.engineDieselUsed }}
@@ -1757,34 +1249,24 @@
                 </div>
               </div>
 
-              <van-divider
-                v-if="
-                  productInfo.rotaryMachinerySpeed ||
-                  productInfo.rotaryMachineryMaxTorque
-                "
-              />
-              <div
-                v-if="
-                  productInfo.rotaryMachinerySpeed ||
-                  productInfo.rotaryMachineryMaxTorque
-                "
-              >
+              <van-divider v-if="
+                productInfo.rotaryMachinerySpeed ||
+                productInfo.rotaryMachineryMaxTorque
+              " />
+              <div v-if="
+                productInfo.rotaryMachinerySpeed ||
+                productInfo.rotaryMachineryMaxTorque
+              ">
                 <div class="engine">
                   <div class="title">回转机械装置</div>
                   <div class="engine-params">
-                    <div
-                      class="params-every"
-                      v-if="productInfo.rotaryMachinerySpeed"
-                    >
+                    <div class="params-every" v-if="productInfo.rotaryMachinerySpeed">
                       <div class="params parameter">回转速度</div>
                       <div class="params">
                         {{ productInfo.rotaryMachinerySpeed + "rpm" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.rotaryMachineryMaxTorque"
-                    >
+                    <div class="params-every" v-if="productInfo.rotaryMachineryMaxTorque">
                       <div class="params parameter">最大回转扭矩</div>
                       <div class="params">
                         {{ productInfo.rotaryMachineryMaxTorque + "KN.m" }}
@@ -1809,123 +1291,89 @@
                 </div>
               </div>
 
-              <van-divider
-                v-if="
-                  productInfo.hydraulicArmCylinderBore ||
-                  productInfo.hydraulicArmCylinderStroke ||
-                  productInfo.hydraulicBoomCylinderBore ||
-                  productInfo.hydraulicBoomCylinderStroke ||
-                  productInfo.hydraulicBucketCylinderBore ||
-                  productInfo.hydraulicBucketCylinderStroke ||
-                  productInfo.hydraulicEquipmentMaxPressure ||
-                  productInfo.hydraulicMaxSystemFlow ||
-                  productInfo.hydraulicRotationMaxPressure ||
-                  productInfo.hydraulicSteerMaxPressure
-                "
-              />
-              <div
-                v-if="
-                  productInfo.hydraulicArmCylinderBore ||
-                  productInfo.hydraulicArmCylinderStroke ||
-                  productInfo.hydraulicBoomCylinderBore ||
-                  productInfo.hydraulicBoomCylinderStroke ||
-                  productInfo.hydraulicBucketCylinderBore ||
-                  productInfo.hydraulicBucketCylinderStroke ||
-                  productInfo.hydraulicEquipmentMaxPressure ||
-                  productInfo.hydraulicMaxSystemFlow ||
-                  productInfo.hydraulicRotationMaxPressure ||
-                  productInfo.hydraulicSteerMaxPressure
-                "
-              >
+              <van-divider v-if="
+                productInfo.hydraulicArmCylinderBore ||
+                productInfo.hydraulicArmCylinderStroke ||
+                productInfo.hydraulicBoomCylinderBore ||
+                productInfo.hydraulicBoomCylinderStroke ||
+                productInfo.hydraulicBucketCylinderBore ||
+                productInfo.hydraulicBucketCylinderStroke ||
+                productInfo.hydraulicEquipmentMaxPressure ||
+                productInfo.hydraulicMaxSystemFlow ||
+                productInfo.hydraulicRotationMaxPressure ||
+                productInfo.hydraulicSteerMaxPressure
+              " />
+              <div v-if="
+                productInfo.hydraulicArmCylinderBore ||
+                productInfo.hydraulicArmCylinderStroke ||
+                productInfo.hydraulicBoomCylinderBore ||
+                productInfo.hydraulicBoomCylinderStroke ||
+                productInfo.hydraulicBucketCylinderBore ||
+                productInfo.hydraulicBucketCylinderStroke ||
+                productInfo.hydraulicEquipmentMaxPressure ||
+                productInfo.hydraulicMaxSystemFlow ||
+                productInfo.hydraulicRotationMaxPressure ||
+                productInfo.hydraulicSteerMaxPressure
+              ">
                 <div class="engine">
                   <div class="title">液压系统</div>
                   <div class="engine-params">
-                    <div
-                      class="params-every"
-                      v-if="productInfo.hydraulicArmCylinderBore"
-                    >
+                    <div class="params-every" v-if="productInfo.hydraulicArmCylinderBore">
                       <div class="params parameter">斗杆油缸-缸径</div>
                       <div class="params">
                         {{ productInfo.hydraulicArmCylinderBore + "mm" }}
                       </div>
                     </div>
 
-                    <div
-                      class="params-every"
-                      v-if="productInfo.hydraulicArmCylinderStroke"
-                    >
+                    <div class="params-every" v-if="productInfo.hydraulicArmCylinderStroke">
                       <div class="params parameter">斗杆油缸-冲程</div>
                       <div class="params">
                         {{ productInfo.hydraulicArmCylinderStroke + "mm" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.hydraulicBoomCylinderBore"
-                    >
+                    <div class="params-every" v-if="productInfo.hydraulicBoomCylinderBore">
                       <div class="params parameter">动臂油缸-缸径</div>
                       <div class="params">
                         {{ productInfo.hydraulicBoomCylinderBore + "mm" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.hydraulicBoomCylinderStroke"
-                    >
+                    <div class="params-every" v-if="productInfo.hydraulicBoomCylinderStroke">
                       <div class="params parameter">动臂油缸-冲程</div>
                       <div class="params">
                         {{ productInfo.hydraulicBoomCylinderStroke + "mm" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.hydraulicBucketCylinderBore"
-                    >
+                    <div class="params-every" v-if="productInfo.hydraulicBucketCylinderBore">
                       <div class="params parameter">铲斗油缸-缸径</div>
                       <div class="params">
                         {{ productInfo.hydraulicBucketCylinderBore + "mm" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.hydraulicBucketCylinderStroke"
-                    >
+                    <div class="params-every" v-if="productInfo.hydraulicBucketCylinderStroke">
                       <div class="params parameter">铲斗油缸-冲程</div>
                       <div class="params">
                         {{ productInfo.hydraulicBucketCylinderStroke + "mm" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.hydraulicEquipmentMaxPressure"
-                    >
+                    <div class="params-every" v-if="productInfo.hydraulicEquipmentMaxPressure">
                       <div class="params parameter">最大压力-设备-执行</div>
                       <div class="params">
                         {{ productInfo.hydraulicEquipmentMaxPressure + "kPa" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.hydraulicMaxSystemFlow"
-                    >
+                    <div class="params-every" v-if="productInfo.hydraulicMaxSystemFlow">
                       <div class="params parameter">最大流量-执行</div>
                       <div class="params">
                         {{ productInfo.hydraulicMaxSystemFlow }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.hydraulicRotationMaxPressure"
-                    >
+                    <div class="params-every" v-if="productInfo.hydraulicRotationMaxPressure">
                       <div class="params parameter">最大压力-回转</div>
                       <div class="params">
                         {{ productInfo.hydraulicRotationMaxPressure + "kPa" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.hydraulicSteerMaxPressure"
-                    >
+                    <div class="params-every" v-if="productInfo.hydraulicSteerMaxPressure">
                       <div class="params parameter">最大压力-行驶</div>
                       <div class="params">
                         {{ productInfo.hydraulicSteerMaxPressure + "kPa" }}
@@ -1935,22 +1383,18 @@
                 </div>
               </div>
 
-              <van-divider
-                v-if="
-                  productInfo.trackWidth ||
-                  productInfo.trackNum ||
-                  productInfo.trackThrustWheelNum ||
-                  productInfo.trackCarrierSprocketNum
-                "
-              />
-              <div
-                v-if="
-                  productInfo.trackWidth ||
-                  productInfo.trackNum ||
-                  productInfo.trackThrustWheelNum ||
-                  productInfo.trackCarrierSprocketNum
-                "
-              >
+              <van-divider v-if="
+                productInfo.trackWidth ||
+                productInfo.trackNum ||
+                productInfo.trackThrustWheelNum ||
+                productInfo.trackCarrierSprocketNum
+              " />
+              <div v-if="
+                productInfo.trackWidth ||
+                productInfo.trackNum ||
+                productInfo.trackThrustWheelNum ||
+                productInfo.trackCarrierSprocketNum
+              ">
                 <div class="engine">
                   <div class="title">履带</div>
                   <div class="engine-params">
@@ -1966,19 +1410,13 @@
                         {{ productInfo.trackNum }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.trackThrustWheelNum"
-                    >
+                    <div class="params-every" v-if="productInfo.trackThrustWheelNum">
                       <div class="params parameter">履带支重轮数量(每侧)</div>
                       <div class="params">
                         {{ productInfo.trackThrustWheelNum }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.trackCarrierSprocketNum"
-                    >
+                    <div class="params-every" v-if="productInfo.trackCarrierSprocketNum">
                       <div class="params parameter">托链轮数量(每侧)</div>
                       <div class="params">
                         {{ productInfo.trackCarrierSprocketNum }}
@@ -1988,20 +1426,16 @@
                 </div>
               </div>
 
-              <van-divider
-                v-if="
-                  productInfo.driveGradient ||
-                  productInfo.driveMaxSpeed ||
-                  productInfo.driveMaxTraction
-                "
-              />
-              <div
-                v-if="
-                  productInfo.driveGradient ||
-                  productInfo.driveMaxSpeed ||
-                  productInfo.driveMaxTraction
-                "
-              >
+              <van-divider v-if="
+                productInfo.driveGradient ||
+                productInfo.driveMaxSpeed ||
+                productInfo.driveMaxTraction
+              " />
+              <div v-if="
+                productInfo.driveGradient ||
+                productInfo.driveMaxSpeed ||
+                productInfo.driveMaxTraction
+              ">
                 <div class="engine">
                   <div class="title">驱动</div>
                   <div class="engine-params">
@@ -2017,10 +1451,7 @@
                         {{ productInfo.driveMaxSpeed + "km/h" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.driveMaxTraction"
-                    >
+                    <div class="params-every" v-if="productInfo.driveMaxTraction">
                       <div class="params parameter">最大牵引力</div>
                       <div class="params">
                         {{ productInfo.driveMaxTraction + "kN" }}
@@ -2030,32 +1461,28 @@
                 </div>
               </div>
 
-              <van-divider
-                v-if="
-                  productInfo.capacityFuelTank ||
-                  productInfo.capacityCooling ||
-                  productInfo.capacityEngineOil ||
-                  productInfo.capacityRotationDrive ||
-                  productInfo.capacityFinalDrive ||
-                  productInfo.capacityHydraulicSystem ||
-                  productInfo.capacityHydraulicTank ||
-                  productInfo.bucketCapacity ||
-                  productInfo.maxReachRange
-                "
-              />
-              <div
-                v-if="
-                  productInfo.capacityFuelTank ||
-                  productInfo.capacityCooling ||
-                  productInfo.capacityEngineOil ||
-                  productInfo.capacityRotationDrive ||
-                  productInfo.capacityFinalDrive ||
-                  productInfo.capacityHydraulicSystem ||
-                  productInfo.capacityHydraulicTank ||
-                  productInfo.bucketCapacity ||
-                  productInfo.maxReachRange
-                "
-              >
+              <van-divider v-if="
+                productInfo.capacityFuelTank ||
+                productInfo.capacityCooling ||
+                productInfo.capacityEngineOil ||
+                productInfo.capacityRotationDrive ||
+                productInfo.capacityFinalDrive ||
+                productInfo.capacityHydraulicSystem ||
+                productInfo.capacityHydraulicTank ||
+                productInfo.bucketCapacity ||
+                productInfo.maxReachRange
+              " />
+              <div v-if="
+                productInfo.capacityFuelTank ||
+                productInfo.capacityCooling ||
+                productInfo.capacityEngineOil ||
+                productInfo.capacityRotationDrive ||
+                productInfo.capacityFinalDrive ||
+                productInfo.capacityHydraulicSystem ||
+                productInfo.capacityHydraulicTank ||
+                productInfo.bucketCapacity ||
+                productInfo.maxReachRange
+              ">
                 <div class="engine">
                   <div class="title">维修加注容量</div>
                   <div class="engine-params">
@@ -2071,64 +1498,43 @@
                         {{ productInfo.maxReachRange + "mm" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.capacityFuelTank"
-                    >
+                    <div class="params-every" v-if="productInfo.capacityFuelTank">
                       <div class="params parameter">燃油箱容量</div>
                       <div class="params">
                         {{ productInfo.capacityFuelTank + "L" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.capacityCooling"
-                    >
+                    <div class="params-every" v-if="productInfo.capacityCooling">
                       <div class="params parameter">冷却系统</div>
                       <div class="params">
                         {{ productInfo.capacityCooling + "L" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.capacityEngineOil"
-                    >
+                    <div class="params-every" v-if="productInfo.capacityEngineOil">
                       <div class="params parameter">发动机机油(含滤清器)</div>
                       <div class="params">
                         {{ productInfo.capacityEngineOil + "L" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.capacityRotationDrive"
-                    >
+                    <div class="params-every" v-if="productInfo.capacityRotationDrive">
                       <div class="params parameter">回转驱动(每个)</div>
                       <div class="params">
                         {{ productInfo.capacityRotationDrive + "L" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.capacityFinalDrive"
-                    >
+                    <div class="params-every" v-if="productInfo.capacityFinalDrive">
                       <div class="params parameter">终传动(每个)</div>
                       <div class="params">
                         {{ productInfo.capacityFinalDrive + "L" }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.capacityHydraulicSystem"
-                    >
+                    <div class="params-every" v-if="productInfo.capacityHydraulicSystem">
                       <div class="params parameter">液压系统油容量(含油箱)</div>
                       <div class="params">
                         {{ productInfo.capacityHydraulicSystem }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.capacityHydraulicTank"
-                    >
+                    <div class="params-every" v-if="productInfo.capacityHydraulicTank">
                       <div class="params parameter">液压油箱(含吸入管)</div>
                       <div class="params">
                         {{ productInfo.capacityHydraulicTank }}
@@ -2138,9 +1544,7 @@
                 </div>
               </div>
 
-              <van-divider
-                v-if="productInfo.extendBoom || productInfo.largeVolumeBoom"
-              />
+              <van-divider v-if="productInfo.extendBoom || productInfo.largeVolumeBoom" />
               <div v-if="productInfo.extendBoom || productInfo.largeVolumeBoom">
                 <div class="engine">
                   <div class="title">动臂</div>
@@ -2151,10 +1555,7 @@
                         {{ productInfo.extendBoom }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.largeVolumeBoom"
-                    >
+                    <div class="params-every" v-if="productInfo.largeVolumeBoom">
                       <div class="params parameter">大斗量动臂</div>
                       <div class="params">
                         {{ productInfo.largeVolumeBoom }}
@@ -2164,12 +1565,8 @@
                 </div>
               </div>
 
-              <van-divider
-                v-if="productInfo.extendStick || productInfo.largeVolumeStick"
-              />
-              <div
-                v-if="productInfo.extendStick || productInfo.largeVolumeStick"
-              >
+              <van-divider v-if="productInfo.extendStick || productInfo.largeVolumeStick" />
+              <div v-if="productInfo.extendStick || productInfo.largeVolumeStick">
                 <div class="engine">
                   <div class="title">斗杆</div>
                   <div class="engine-params">
@@ -2179,10 +1576,7 @@
                         {{ productInfo.extendStick }}
                       </div>
                     </div>
-                    <div
-                      class="params-every"
-                      v-if="productInfo.largeVolumeStick"
-                    >
+                    <div class="params-every" v-if="productInfo.largeVolumeStick">
                       <div class="params parameter">大容量型斗杆</div>
                       <div class="params">
                         {{ productInfo.largeVolumeStick }}
@@ -2195,20 +1589,12 @@
           </van-tab>
           <van-tab title="工装机具" name="third">
             <div class="product-list-content tools">
-              <router-link
-                v-for="(item, index) in productInfo.toolList"
-                :key="index"
-                class="item"
-                :to="{
-                  path: '/product/workTools',
-                  query: { id: item.id },
-                }"
-              >
+              <router-link v-for="(item, index) in productInfo.toolList" :key="index" class="item" :to="{
+                path: '/product/workTools',
+                query: { id: item.id },
+              }">
                 <div class="img">
-                  <img
-                    class="img"
-                    :src="base_request_url + '/file/' + item.imgUrl"
-                  />
+                  <img class="img" :src="base_request_url + '/file/' + item.imgUrl" />
                 </div>
                 <div class="name">{{ item.toolName }}</div>
               </router-link>
@@ -2222,17 +1608,9 @@
           <div>相关二手机推荐</div>
         </div>
         <div class="product-list-content">
-          <div
-            v-for="(item, index) in productInfo.recycleList"
-            :key="index"
-            class="item"
-            @click="checkDetail(item)"
-          >
+          <div v-for="(item, index) in productInfo.recycleList" :key="index" class="item" @click="checkDetail(item)">
             <div class="img">
-              <img
-                class="img"
-                :src="base_request_url + '/file/' + item.imgUrl"
-              />
+              <img class="img" :src="base_request_url + '/file/' + item.imgUrl.split('|')[0]" />
             </div>
             <div class="title">{{ item.model }}</div>
           </div>
@@ -2876,6 +2254,7 @@ const test = () => {
 
   .pc-detail-top {
     padding: 0 15px;
+
     .top-content {
       .product-detail-content {
         margin-top: 40px;
@@ -3056,6 +2435,7 @@ const test = () => {
 
   .second-container {
     padding: 0 15px;
+
     .product-list-content {
       margin-top: 0 !important;
     }
